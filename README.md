@@ -1,0 +1,2 @@
+# anowerCppUtils
+Misc C++ utils
