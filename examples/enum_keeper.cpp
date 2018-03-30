@@ -34,38 +34,43 @@ int main()
     oldEnumKeeper.set(FlagB);
        
     //test flags
-    assert(oldEnumKeeper.isSet(FlagA));
-    assert(oldEnumKeeper.isSet(FlagB));
-    assert(!oldEnumKeeper.isSet(FlagC));
+    assert(oldEnumKeeper.contain(FlagA));
+    assert(oldEnumKeeper.contain(FlagB));
+    assert(!oldEnumKeeper.contain(FlagC));
     
     //1.2. remove flag
     oldEnumKeeper.remove(FlagB);
 
     //test flags
-    assert(oldEnumKeeper.isSet(FlagA));
-    assert(!oldEnumKeeper.isSet(FlagB));
-    assert(!oldEnumKeeper.isSet(FlagC));
+    assert(oldEnumKeeper.contain(FlagA));
+    assert(!oldEnumKeeper.contain(FlagB));
+    assert(!oldEnumKeeper.contain(FlagC));
     
     //-----------------------------------------------------------------
     //2. New style enum 
     flags::EnumFlagKeeper<NewStyleEnum, NewStyleEnum::C> newEnumKeeper;
     
+    //construct const keeper from enum by list
+    //may be constexpr in c++14
+    const flags::EnumFlagKeeper<NewStyleEnum, NewStyleEnum::C> newEnumKeeper_v2{NewStyleEnum::A, NewStyleEnum::B}; 
+    
     //2.1 set two flag
     newEnumKeeper.set(NewStyleEnum::A);
     newEnumKeeper.set(NewStyleEnum::B);
+    
        
     //test flags
-    assert(newEnumKeeper.isSet(NewStyleEnum::A));
-    assert(newEnumKeeper.isSet(NewStyleEnum::B));
-    assert(!newEnumKeeper.isSet(NewStyleEnum::C));
+    assert(newEnumKeeper.contain(NewStyleEnum::A));
+    assert(newEnumKeeper.contain(NewStyleEnum::B));
+    assert(!newEnumKeeper.contain(NewStyleEnum::C));
     
     //2.2. remove flag
     newEnumKeeper.remove(NewStyleEnum::B);
 
     //test flags
-    assert(newEnumKeeper.isSet(NewStyleEnum::A));
-    assert(!newEnumKeeper.isSet(NewStyleEnum::B));
-    assert(!newEnumKeeper.isSet(NewStyleEnum::C));    
+    assert(newEnumKeeper.contain(NewStyleEnum::A));
+    assert(!newEnumKeeper.contain(NewStyleEnum::B));
+    assert(!newEnumKeeper.contain(NewStyleEnum::C));    
     
     //-----------------------------------------------------------------
     //2. New style enum with incorrect type

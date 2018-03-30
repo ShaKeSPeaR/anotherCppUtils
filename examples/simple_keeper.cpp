@@ -17,6 +17,10 @@ int main()
     
     flags::SimpleFlagKeeper<int> options;
     
+    //construct const keeper from int list
+    //may be constexpr in c++14
+    const flags::SimpleFlagKeeper<int> options_const{Flags::A, Flags::C};
+    
     //1.set two flag
     options.set(Flags::A);
     options.set(Flags::B);
@@ -24,21 +28,21 @@ int main()
     //TODO: move this to test suite
     
     //test flags
-    assert(options.isSet(Flags::A));
-    assert(options.isSet(Flags::B));
-    assert(!options.isSet(Flags::C));
+    assert(options.contain(Flags::A));
+    assert(options.contain(Flags::B));
+    assert(!options.contain(Flags::C));
     
     //2. remove flag
     options.remove(Flags::B);
 
     //test flags
-    assert(options.isSet(Flags::A));
-    assert(!options.isSet(Flags::B));
-    assert(!options.isSet(Flags::C));    
+    assert(options.contain(Flags::A));
+    assert(!options.contain(Flags::B));
+    assert(!options.contain(Flags::C));    
     
     //3.direct value 
-    assert(options.isSet(1));
-    assert(!options.isSet(1000));
+    assert(options.contain(1));
+    assert(!options.contain(1000));
     
     return 0;
 }

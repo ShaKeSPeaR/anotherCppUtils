@@ -9,6 +9,26 @@
 namespace flags
 {
     
+    namespace _detail
+    {
+        //Function - constructor for make internal bitset for keeper from initializer_list
+        //constexpr in c++14
+        template<size_t N, class T>
+        #if __cplusplus >= 201103L && __cplusplus < 201402L
+        auto make_bitset(std::initializer_list<T> init) -> std::bitset<N>
+        #else
+        constexpr auto make_bitset(std::initializer_list<T> init)
+        #endif
+        {
+            unsigned long long d{0};    
+            for (auto v : init)  {
+                d |= (1 << static_cast<int>(v));
+            }
+            
+            return std::bitset<N>{d};
+        }
+    }    
+    
     /*
      * Flag keeper for enum flags
      * Store bitset for flag combination
@@ -48,6 +68,14 @@ namespace flags
                       "Underlying Enum type must be unsigned!");
 
         constexpr EnumFlagKeeper(): m_value(0) {}
+        
+        #if __cplusplus >= 201103L && __cplusplus < 201402L
+        EnumFlagKeeper(std::initializer_list<T> v) 
+        #else
+        constexpr EnumFlagKeeper(std::initializer_list<T> v) 
+        #endif
+           : m_value{_detail::make_bitset<N, T>(v)}
+        { }        
 
         /**
          * \brief Set (enable) flag by value
@@ -66,7 +94,7 @@ namespace flags
          * \param[in] val value (position) for test
          * \return true if value is set in options
          */
-        inline bool isSet(FlagType val) const { return m_value.test(static_cast<size_t>(val)); }
+        inline bool contain(FlagType val) const { return m_value.test(static_cast<size_t>(val)); }
 
     private:
         std::bitset<N> m_value;

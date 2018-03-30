@@ -20,7 +20,7 @@ Specialize `SimpleFlagKeeper` with type of flags and use it
     
     options.set(Flags::A);    //set flag A
     options.remove(Flags::B); //remove flag B
-    options.isSet(Flags::C);  //test C flag is set
+    options.contain(Flags::C);  //test C flag is set
     
 ## Enum Keeper    
     
@@ -47,7 +47,9 @@ Specialize type and MaxVal and use it as SimpleKeeper:
 
     EnumFlagKeeper<OldStyleEnum, C> oldStyleKeeper;
     EnumFlagKeeper<NewStypeEnum, NewStypeEnum::C> newStyleKeeper;
-
+    
     newStyleKeeper.set(NewStypeEnum::A);    //set flag A
     newStyleKeeper.remove(NewStypeEnum::B); //remove flag B
-    newStyleKeeper.isSet(NewStypeEnum::C);  //test C flag is set
+    newStyleKeeper.contain(NewStypeEnum::C);  //test C flag is set
+
+    const EnumFlagKeeper<OldStyleEnum, C> constKeeper{A, B}; //const keeper with init by list
