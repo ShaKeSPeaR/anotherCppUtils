@@ -2,7 +2,7 @@
 #ifndef _APPU_TUPLE_UTILS_
 #define _APPU_TUPLE_UTILS_
 
-#incldue <tuple>
+#include <tuple>
 
 /*
     Helpers for types tranformation in std::tuple

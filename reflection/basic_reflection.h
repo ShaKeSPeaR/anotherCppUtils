@@ -44,12 +44,12 @@ namespace reflection { namespace basic
     //Can be specialized manualy if necessary
     template<class T>
     inline constexpr auto reflect_as_tie(const T& v) noexcept
-    {
-        //get non const result
-        auto ref_v = reflect_as_tie(const_cast<T&>(v));
+    {       
+        //reference type (tuple<Types&...>)
+        using ref_t = decltype(reflect_as_tie(std::declval<T&>()));
+
         //create const version of data references
-        tuple_utils::add_const_t<decltype(ref_v)> cref_v = ref_v;
-        return cref_v;
+        return tuple_utils::add_const_t<ref_t>(reflect_as_tie(const_cast<T&>(v)));        
     }
 
     //Main reflection info structure
